@@ -12,9 +12,9 @@ with open("tes_path", "r") as f:
 
 pytesseract.pytesseract.tesseract_cmd = tes_path
 
-PM_parter = "Pliki/21627/PM_Parter_Pm_50_Nowy.pdf"
-GK = "Pliki/21627/1-SZ-02_zgk.pdf"
-ZPS = "Pliki/21627/Rys_naroze_1.pdf"
+# PM_parter = "Pliki/21627/PM_Parter_Pm_50_Nowy.pdf"
+# GK = "Pliki/21627/1-SZ-02_zgk.pdf"
+# ZPS = "Pliki/21627/Rys_naroze_1.pdf"
 
 
 
@@ -195,17 +195,7 @@ def Wykryj_text_na_png(image, im_name, rotate=False):
         f.write(text)
 
 
-# pm = Konwersja_pdf_png(PM_parter, (9,9))
 
-# Wykryj_text_na_png(pm[0], pm[1])
-
-pdf_png_1 = PDF_Do_XXX(PM_parter)
-pdf_png_2 = PDF_Do_XXX(GK)
-
-
-# pdf_png = PDF_Do_XXX("Pliki/21627/21355-DE Busse_Point v2 DW 19-11-2021.pdf")
-
-# print(pdf_png.Ilosc_Ston, pdf_png.toc)
 
 
 
