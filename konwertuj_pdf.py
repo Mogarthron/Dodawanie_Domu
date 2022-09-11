@@ -12,11 +12,6 @@ with open("tes_path", "r") as f:
 
 pytesseract.pytesseract.tesseract_cmd = tes_path
 
-# PM_parter = "Pliki/21627/PM_Parter_Pm_50_Nowy.pdf"
-# GK = "Pliki/21627/1-SZ-02_zgk.pdf"
-# ZPS = "Pliki/21627/Rys_naroze_1.pdf"
-
-
 
 class Zestawinie_Okien:
     NUMER_STRONY = 0
@@ -37,13 +32,13 @@ class PDF_Do_XXX:
         self.__doc = fitz.open(path_to_pdf)
         self.Ilosc_Ston = self.__doc.page_count
         self.toc = self.__doc.get_toc() #Table of content
-        self.zestawinie_okien = "Brak Zestawienia"
+        self.Zawarosc_stron = [self.__doc.load_page(x) for x in range(self.__doc.page_count)]
 
-        if self.Ilosc_Ston > 1:
-            self.zestawinie_okien = [Zestawinie_Okien(self.__doc.load_page(x)) for x in range(self.__doc.page_count)]
-            for o in self.zestawinie_okien:
-                if o.Zestawienie_Okien:
-                    self.zestawinie_okien = o.text
+        # if self.Ilosc_Ston > 1:
+          
+        #     for o in self.Zawarosc_stron:
+        #         if o.Zestawienie_Okien:
+        #             self.Zawarosc_stron = o.text
 
         if self.Ilosc_Ston == 1 and "_Pm_50_Nowy" in path_to_pdf:
             #wyszukanie okien przy ścianach
@@ -61,12 +56,12 @@ class PDF_Do_XXX:
             print("Rysunek GK")
 
 
-    def Konwersja_pdf_png(self, zoom=(8,8), FILTR=200):
+    def Konwersja_pdf_png(self, strona=0, zoom=(8,8), FILTR=200):
         
         zoom_x = zoom[0]  #powiekszenie strony na osi x
         zoom_y = zoom[1]  #powiekszenie strony na osi y
 
-        page = self.__doc.load_page(0)       
+        page = self.__doc.load_page(strona)       
         mat = fitz.Matrix(zoom_x, zoom_y) 
 
         pix = page.get_pixmap(matrix=mat)  #bitowa reprezentacja strony pdf
@@ -200,4 +195,3 @@ def Wykryj_text_na_png(image, im_name, rotate=False):
 
 
 
-    
