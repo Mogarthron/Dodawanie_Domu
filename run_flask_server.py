@@ -2,11 +2,11 @@ import os
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = './Input/'
+# UPLOAD_FOLDER = './Input/'
 ALLOWED_EXTENSIONS = {"zip", "pdf"}
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 def allowed_file(filename):
@@ -28,7 +28,11 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            if filename.endswith("pdf"):
+                file.save(os.path.join('./Pliki/', filename))
+            else:
+                file.save(os.path.join('./Input/', filename))
             return redirect(url_for('upload_file', name=filename))
     return '''
     <!doctype html>
