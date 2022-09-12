@@ -7,6 +7,7 @@ import time
 
 
 def main():
+    print("Program do rozpakowywania plikow", dt.datetime.now())  
     input_list = []
 
     input_count = 0
@@ -27,11 +28,6 @@ def main():
                     print("cos poszło nie tak!!!")
 
                 os.remove(f"./Input/{f}")
-
-
-    
-
-
 
 
 

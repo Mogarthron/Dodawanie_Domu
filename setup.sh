@@ -11,5 +11,7 @@ mkdir Dodawanie_Domu/Input Dodawanie_Domu/Output Dodawanie_Domu/Pliki
 
 which tesseract > Dodawanie_Domu/tes_path
 
-touch PDFThronLicence
+PDFThronLicence = ""
+
+echo $PDFThronLicence > Dodawanie_Domu/PDFThronLicence
 
