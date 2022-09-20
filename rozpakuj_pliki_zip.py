@@ -7,7 +7,7 @@ import time
 
 
 def main():
-    print("Program do rozpakowywania plikow", dt.datetime.now())  
+    print("Program do rozpakowywania plikow uruchomiony", dt.datetime.now())  
     input_list = []
 
     input_count = 0
@@ -19,11 +19,12 @@ def main():
             input_list = os.listdir("./Input")
             for f in input_list:
                 time.sleep(5)
-                print("dodano plik", f, "o", dt.datetime.now())           
+                print("-rozpakowywanie pliku", f)           
                 file_path = f"./Input/{f}"
                 try:
                     with zipfile.ZipFile(file_path, 'r') as zip_ref:
                         zip_ref.extractall("./Pliki")
+                    print(f"--{f}rozpakowany { dt.datetime.now()}")
                 except:
                     print("cos poszło nie tak!!!")
 

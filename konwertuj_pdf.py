@@ -149,10 +149,9 @@ def Wyszukaj_otwory(text:str, znacznik_otworu:str):
     return wymiary_otworu
 
 
-def Konwersja_pdf_png(path_to_pdf, zoom=(8,8), FILTR = 200):
+def Konwersja_pdf_png(path_to_pdf, folder, zoom=(8,8), FILTR = 200):
     doc = fitz.open(path_to_pdf)
-    print(doc.page_count)
-    
+        
     page = doc.load_page(0)       
 
     zoom_x = zoom[0]  #powiekszenie strony na osi x
@@ -161,8 +160,10 @@ def Konwersja_pdf_png(path_to_pdf, zoom=(8,8), FILTR = 200):
     mat = fitz.Matrix(zoom_x, zoom_y) 
 
     pix = page.get_pixmap(matrix=mat)  #bitowa reprezentacja strony pdf
-    nazwa_pliku = path_to_pdf.split('/')[-1][:-4]
-    path_png = f"./Output/{nazwa_pliku}.png"
+  
+    nazwa_pliku = path_to_pdf.replace(chr(92), "/").split('/')[-1][:-4]       
+   
+    path_png = f"./Output/{folder}/{nazwa_pliku}.png"    
 
     im = Image.frombytes("RGB", [pix.width, pix.height], pix.samples) #utworzenie templatki na png
     im = im.filter(ImageFilter.MedianFilter()) 
@@ -182,15 +183,46 @@ def Konwersja_pdf_png(path_to_pdf, zoom=(8,8), FILTR = 200):
     return new_im, nazwa_pliku
 
 
-def Wykryj_text_na_png(image, im_name, rotate=False):   
+def Wykryj_text_na_png(image, im_name, folder, rotate=False):   
 
     text = pytesseract.image_to_string(image)
     text = text.strip()
-    with open(f"./Output/{im_name}_raw.txt", "w", encoding='utf-8') as f:
+    with open(f"./Output/{folder}/{im_name}_raw.txt", "w", encoding='utf-8') as f:
         f.write(text)
 
 
+def main():
+    base_path = "./Pliki"
 
+    for p in os.listdir(base_path):
+        _kon = [x for x in os.listdir(os.path.join(base_path, p)) if x.endswith(".pdf") if "_kon" in x][:5]
+
+        print(p, "ilość plików", len(_kon))
+
+        os.makedirs(f"./Output/{p}")
+        for pdf in enumerate(_kon):            
+            try:                
+                path_to_pdf = os.path.join(base_path, p, pdf[1])
+                pdf_png, nazwa_pliku = Konwersja_pdf_png(path_to_pdf=path_to_pdf, folder=p)
+                Wykryj_text_na_png(pdf_png, pdf[1], p)
+                print(f"{pdf[0]+1}/{len(_kon)}, {pdf[1]} przekonvertowano na pdf i zapisano tekst")
+            except:
+                print(f"{pdf[0]+1}/{len(_kon)}, konwersja {pdf[1]} niepowiadła się =/")
+            
+           
+
+
+
+
+
+        del(_kon)
+
+
+
+
+
+if __name__ == "__main__":
+    main()
 
 
 
